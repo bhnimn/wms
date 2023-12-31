@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminBoardMapper">
+	
+	<select id="selectNewBoard" resultType="AdminBoardDto" >
+		SELECT 
+	   			*
+	    FROM 
+				BOARD_INFO 	            		
+        ORDER BY 
+          		BOARD_ID ASC
+	</select>
+	
+	<insert id="insertNewBoard" parameterType="AdminBoardDto">
+		    INSERT INTO 
+		  			BOARD_INFO (
+						BOARD_ID,
+					    BOARD_TITLE,
+						BOARD_DATE,
+						BOARD_GENRE,
+						BOARD_VIEWS,
+						BOARD_LIKES,
+						BOARD_INTRO,
+						BOARD_CASTING ,
+						BOARD_DIRECTOR,
+						BOARD_EPISODE,
+						BOARD_COUNTRY,
+						BOARD_FILE_NAME
+		  			)
+		    VALUES (
+			       #{boardId},
+			       #{boardTitle},
+			       #{boardDate},
+			       #{boardGenre},
+			       0,
+			       0,
+			       #{boardIntro},
+			       #{boardCasting},
+			       #{boardDirector},
+			       #{boardEpisode},
+			       #{boardCountry},
+			       #{boardFileName}
+ 			 )
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="Int">
+		DELETE FROM
+				BOARD_INFO
+		WHERE
+				BOARD_ID = #{boardId}
+	</delete>
+</mapper>

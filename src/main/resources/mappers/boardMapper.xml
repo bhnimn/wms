@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+	
+	<select id="selectBoardList" parameterType="String" resultType="AdminBoardDto"   >
+		SELECT 
+   				*	
+   		FROM 
+   				BOARD_INFO
+   		WHERE
+   				BOARD_GENRE = #{boardStatus}  
+       	ORDER BY 
+				BOARD_ID DESC
+	</select>
+	
+	<select id="selectAllBoard" resultType="AdminBoardDto"   >
+		SELECT 
+   				*	
+   		FROM 
+   				BOARD_INFO
+       	ORDER BY 
+				BOARD_ID DESC
+	</select>
+	
+	<select id="selectViewBoard" resultType="AdminBoardDto"   >
+		SELECT 
+   				*	
+   		FROM 
+   				BOARD_INFO
+       	ORDER BY 
+				BOARD_VIEWS DESC
+	</select>
+	
+	<select id="selectLikeBoard" resultType="AdminBoardDto"   >
+		SELECT 
+   				*	
+   		FROM 
+   				BOARD_INFO
+       	ORDER BY 
+				BOARD_LIKES DESC
+	</select>
+	
+	<select id="selectBoardDetail" resultType="AdminBoardDto" parameterType="Int">
+		SELECT 
+   				*	
+   		FROM 
+   				BOARD_INFO
+       	WHERE
+       			BOARD_ID = #{boardId}
+	</select>
+	
+	<update id="increaseReadCount" parameterType="Int">
+		UPDATE
+				BOARD_INFO
+		SET
+				BOARD_VIEWS = BOARD_VIEWS + 1
+		WHERE
+				BOARD_ID = #{boardId}
+	</update>
+	
+	<select id="isHeartExist" resultType="HeartDto" parameterType="hashMap">
+		SELECT
+				*
+		FROM
+				HEART
+		WHERE
+				MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+	</select>
+	
+	<insert id="insertHeart" parameterType="hashMap">
+		INSERT INTO
+					HEART
+		VALUES(
+			#{memberId},
+			#{boardId}
+		)
+	</insert>	
+	
+	<delete id="deleteHeart" parameterType="hashMap">
+		DELETE FROM
+				HEART
+		WHERE
+				MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+	</delete>
+	
+	<update id="plusHeart" parameterType="hashMap">
+		UPDATE
+				BOARD_INFO
+		SET
+				BOARD_LIKES = BOARD_LIKES + 1
+		WHERE
+				BOARD_ID = #{boardId}
+	</update>
+	<update id="minusHeart" parameterType="hashMap">
+		UPDATE
+				BOARD_INFO
+		SET
+				BOARD_LIKES = BOARD_LIKES - 1
+		WHERE
+				BOARD_ID = #{boardId}
+	</update>
+	<resultMap type="hashMap" id="allComment">
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_ID" property="boardId"/>
+		<result column="REVIEW_COMMENT" property="reviewComment"/>
+		<result column="COMMENT_DATE" property="commentDate"/>
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="MEMBER_NICKNAME" property="memberNickname"/>
+	</resultMap>
+	
+	<select id="selectAllComment" parameterType="Int" resultMap="allComment"   >
+		SELECT 
+   				C.MEMBER_ID				AS MEMBER_ID,
+   				C.BOARD_ID				AS BOARD_ID,
+   				C.REVIEW_COMMENT		AS REVIEW_COMMENT,
+   				C.COMMENT_DATE			AS COMMENT_DATE,
+   				C.COMMENT_NO			AS COMMENT_NO,
+   				M.MEMBER_NICKNAME		AS MEMBER_NICKNAME	
+   		FROM 
+   				COMMENT_REVIEW C
+   					INNER JOIN MEMBER_INFO M
+   							ON C.MEMBER_ID = M.MEMBER_ID
+   		WHERE
+   				BOARD_ID = #{boardId}  
+       	ORDER BY 
+				COMMENT_DATE DESC
+	</select>
+	
+	<insert id="insertComment" parameterType="CommentDto">
+		INSERT INTO
+					COMMENT_REVIEW
+		VALUES(
+			#{memberId},
+			#{boardId},
+			#{reviewComment},
+			NOW(),
+			#{commentNo}
+		)
+	</insert>
+	
+	<select id="selectBoardLike" parameterType="String" resultType="AdminBoardDto">
+		SELECT
+				B.BOARD_FILE_NAME		AS BOARD_FILE_NAME,
+				B.BOARD_LIKES			AS BOARD_LIKES,
+				B.BOARD_VIEWS			AS BOARD_VIEWS,
+				B.BOARD_GENRE			AS BOARD_GENRE,
+				B.BOARD_ID				AS BOARD_ID,
+				B.BOARD_TITLE			AS BOARD_TITLE
+		FROM
+				MEMBER_INFO M
+				   INNER JOIN HEART H
+				   		   ON M.MEMBER_ID = H.MEMBER_ID
+				   INNER JOIN BOARD_INFO B
+				   		   ON H.BOARD_ID = B.BOARD_ID
+		WHERE
+				M.MEMBER_ID = #{memberId}
+	</select>
+</mapper>

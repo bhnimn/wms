@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">	
+
+<tiles-definitions>
+
+	  <definition name="/board/genreall" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/genreall.jsp" />
+      </definition>  
+	  <definition name="/board/genreaction" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/genreaction.jsp" />
+      </definition>  
+	  <definition name="/board/genredrama" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/genredrama.jsp" />
+      </definition>  
+	  <definition name="/board/genreseries" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/genreseries.jsp" />
+      </definition>  
+	  <definition name="/board/genresf" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/genresf.jsp" />
+      </definition>  
+	  <definition name="/board/boardDetail" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/boardDetail.jsp" />
+      </definition>  
+      
+	  <definition name="/board/boardLike" extends="baseLayout">
+         <put-attribute name="title" value="로그인 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/board/boardLike.jsp" />
+      </definition>  
+      
+</tiles-definitions>
